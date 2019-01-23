@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.dao.IUserDao" >
+    <!-- 字段与实体的映射 -->
+    <!--<resultMap id="BaseResultMap" type="com.ssm.entities.User">-->
+        <!--<id column="id" property="id" jdbcType="VARCHAR" />-->
+        <!--<result column="name" property="name" jdbcType="VARCHAR" />-->
+        <!--<result column="age" property="age" jdbcType="NUMBER" />-->
+        <!--<result column="client_no" property="clientNo" jdbcType="VARCHAR" />-->
+        <!--<result column="client_no" property="clientNo" jdbcType="VARCHAR" />-->
+        <!--<result column="client_no" property="clientNo" jdbcType="VARCHAR" />-->
+
+    <!--</resultMap>-->
+
+    <!-- 根据条件查询，全部 -->
+    <select id="listByMapper" resultType="User">
+        SELECT * FROM TB_USER
+    </select>
+
+    <select id="getUsers" resultMap="getUserMap">
+        select u.tuid,u.name,u.age,u.sex,u.mobile,u.remark,tr.trid,tr.role_name,tr.code from tb_user_role ur,tb_user u,tb_role tr
+        where ur.user_id=u.tuid and tr.trid=ur.role_id
+    </select>
+    <resultMap type="com.ssm.entities.User" id="getUserMap">
+        <id column="tuid" property="tuid"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="mobile" property="mobile"/>
+        <result column="remark" property="remark"/>
+        <collection property="role" ofType="com.ssm.entities.Role">
+            <id column="trid" property="trid"/>
+            <result column="role_name" property="roleName"/>
+            <result column="code" property="code"/>
+        </collection>
+    </resultMap>
+
+</mapper>
